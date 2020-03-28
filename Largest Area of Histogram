@@ -1,0 +1,103 @@
+int Solution::largestRectangleArea(vector<int> &A) {
+    int size=A.size();
+    stack <int> s; 
+    int max1=INT_MIN;
+    for(int current=0;current<size;current++)
+    {
+        if(current==0)
+        {
+            s.push(current);
+            continue;
+        }
+        
+        if(A[current]>=A[s.top()])
+        {
+            s.push(current);
+            continue;
+        }
+        else
+        {
+            while(!s.empty()&&A[current]<A[s.top()])
+            {
+                int temp=s.top();
+                s.pop();
+                if(s.empty())
+                {
+                    max1=max(max1,A[temp]*current);
+                }
+                else
+                {
+                    max1=max(max1,A[temp]*(current-s.top()-1));
+                }
+            }
+            s.push(current);
+        }
+    }
+    while(!s.empty())
+        {   
+            int temp=s.top();
+            s.pop();
+            if(s.empty())
+            {
+            max1=max(max1,A[temp]*size);
+            //cout<<temp<<"\n";
+            }
+            else
+            {
+                max1=max(max1,A[temp]*(size-s.top()-1));
+            }
+            
+      
+        }
+    return max1;
+}
+/*
+Notes
+pop_value: value of last popped: 
+current_index:
+current_value:
+stack_top_index: 
+stack_top_value:
+current_index=0
+stack empty
+Push(2)
+current_index=1
+current_value
+stack_top_value:2
+pop(index 0)
+(cond:stack_empty)pop_value*current_index
+(cond:stack_not_empty)pop_value*(current_index-(stack_top_index+1))
+[3,2,3,1,5]
+3*1 max
+3*1
+2*3
+array[2,1,5,6,2,3,1]
+[1,2,3] current value=1
+[1,2]
+1 ka index 
+[2,1,3,4,2,3]
+---
+2*1
+4*1
+3*2
+3*1
+2*2
+1*6
+---
+[6,5,4,3,2]
+6*1
+5*2
+4*3
+3*4
+2*5
+------
+2*1
+6*1
+5*2 max
+3*1
+2*2
+6*1
+------
+
+[1,2,0,2,1,2]
+*/
