@@ -1,0 +1,52 @@
+vector<int> Solution::slidingMaximum(const vector<int> &A, int B) {
+    deque <int> d;
+    int i=0;
+    vector<int> ans;
+    for(i=0;i<B;i++)
+    {
+    
+        while (!d.empty()&&A[i]>A[d.back()])
+        {
+            d.pop_back();
+        }
+        d.push_back(i);
+    }
+    ans.push_back(A[d.front()]);
+    for(;i<A.size();i++)
+    {
+        if(!d.empty()&&(i-d.front()>=B))
+        {
+          d.pop_front();
+        }
+        while (!d.empty()&&A[i]>A[d.back()])
+        {
+            d.pop_back();
+        }
+        d.push_back(i);
+        ans.push_back(A[d.front()]);
+    }
+    return ans;
+}
+/*
+[1 3 -1]
+
+auxilliary data structure
+max size = B
+[1]
+
+[a, b, c, d]
+e aaya
+start removing from d (back) while e>back()
+3
+[a,b,e]
+
+[1]
+[1,2,3] 4
+[3,-1,-3] 5
+[3,-1,-3]
+//[-1,-3] 
+[5]
+[5,3]
+
+[6]
+*/
